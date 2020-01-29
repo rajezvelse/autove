@@ -1,0 +1,13 @@
+{
+    "ignore": [
+        "node_modules",
+        "package.json",
+        "package-lock.json",
+        ".git"
+    ],
+    "ext": "js json",
+    "watch": [
+        "*",
+        "bin/www"
+    ]
+}
