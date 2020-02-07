@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// Register module require for path aliases
+require('module-alias/register');
+
 /**
  * Module dependencies.
  */

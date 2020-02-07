@@ -4,8 +4,10 @@ var path = require('path');
 var logger = require('morgan');
 var cors = require('cors');
 
+var { handleError } = require('@app/middlewares');
+
 // Importing all the controller schema
-var appRootSchema = require('./controllers');
+var appRootSchema = require('@app/controllers');
 
 var app = express();
 
@@ -24,12 +26,14 @@ app.use(logger('dev'));
 // app.use(express.urlencoded({ extended: false }));
 
 // Static content
-app.use(express.static(path.join(__dirname, 'src/static')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'favicon.ico')));
+// app.use(express.static(path.join(__dirname, 'src/static')));
 
 // Configuring GraphQL API middleware
 app.use('/graphql', graphqlHTTP({
   schema: appRootSchema,
-  graphiql: true
+  graphiql: true,
+  customFormatErrorFn: handleError
 }));
 
 // catch 404 and forward to error handler
