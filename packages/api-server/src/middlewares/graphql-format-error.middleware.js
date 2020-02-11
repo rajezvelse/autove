@@ -1,9 +1,12 @@
 // Customizing errors before sending to client
 module.exports = (error) => {
-  switch (error.originalError.name) {
+
+  let errorName = error.originalError? error.originalError.name: '';
+
+  switch (errorName) {
     case "AppValidationError": {
       return {
-        status: error.originalError.statusCode,
+        status: error.originalError.status,
         message: error.message,
         validations: error.originalError.validations,
         // locations: error.locations,
@@ -13,7 +16,7 @@ module.exports = (error) => {
     }
     default: {
       return {
-        status: error.originalError.statusCode || 500,
+        status: error.originalError? (error.originalError.status || 400):  400,
         message: error.message
       }
     }

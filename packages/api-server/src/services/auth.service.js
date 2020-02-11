@@ -20,7 +20,7 @@ class AuthService extends BaseService {
 
       delete user.password;
 
-      let token = generateToken(user.id);
+      let token = generateToken(user.id, user.role);
 
       return {
         token: token,

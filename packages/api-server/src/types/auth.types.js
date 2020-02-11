@@ -5,9 +5,10 @@ const UserTypes = require('./user.types');
 exports.AuthDetailsType = new GraphQLObjectType({
   name: "AuthDetails",
   fields: {
-    token: { type: new GraphQLNonNull(GraphQLString) },
+    token: { type: new GraphQLNonNull(GraphQLString), access: "open" },
     user: {
-      type: UserTypes.UserDetailsType
+      type: UserTypes.UserDetailsType,
+      access: "open"
     }
   }
 })

@@ -1,8 +1,10 @@
-var handleError = require('./error-handling.middleware');
-var tokenHandler = require('./token-handler.middleware');
+var graphqlFormatError = require('./graphql-format-error.middleware');
+var authInterceptor = require('./auth.middleware');
+var graphqlPermissionInterceptor = require('./graphql-permission.middleware');
 
 
 module.exports = {
-  handleError,
-  ...tokenHandler
+  graphqlFormatError,
+  authInterceptor,
+  graphqlPermissionInterceptor
 }

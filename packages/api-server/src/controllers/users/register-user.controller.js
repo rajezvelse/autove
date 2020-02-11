@@ -6,6 +6,7 @@ const { UserService } = require('@app/services');
 // Register user mutation
 var registerUserMutation = {
   type: UserDetailsType,
+  access: ['admin'],
   args: {
     registrationData: { type: new GraphQLNonNull(RegisterUserInputType) }
   },

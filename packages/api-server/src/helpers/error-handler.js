@@ -1,7 +1,7 @@
 
 class AppValidationError extends Error {
   name = 'AppValidationError';
-  statusCode = 400;
+  status = 400;
 
   constructor(error) {
     super();
@@ -14,7 +14,7 @@ exports.AppValidationError = AppValidationError;
 
 class UnauthorizedError extends Error {
   name = 'UnauthorizedError';
-  statusCode = 400;
+  status = 401;
 
   constructor(message) {
     super();

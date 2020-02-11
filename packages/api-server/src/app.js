@@ -1,10 +1,12 @@
-var express = require('express');
-var graphqlHTTP = require('express-graphql');
-var path = require('path');
-var logger = require('morgan');
-var cors = require('cors');
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const path = require('path');
+const logger = require('morgan');
+const cors = require('cors');
+const { applyMiddleware } = require('graphql-middleware')
 
-var { handleError } = require('@app/middlewares');
+var { authInterceptor, graphqlFormatError, graphqlPermissionInterceptor } = require('@app/middlewares');
+console.log()
 
 // Importing all the controller schema
 var appRootSchema = require('@app/controllers');
@@ -22,18 +24,21 @@ app.use(cors({
 app.use(logger('dev'));
 
 // Set body parsers
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Authentication validator
+app.use(authInterceptor);
 
 // Static content
 app.use('/favicon.ico', express.static(path.join(__dirname, 'favicon.ico')));
-// app.use(express.static(path.join(__dirname, 'src/static')));
+app.use('/static', express.static(path.join(__dirname, 'src/static')));
 
 // Configuring GraphQL API middleware
 app.use('/graphql', graphqlHTTP({
-  schema: appRootSchema,
+  schema: applyMiddleware(appRootSchema, graphqlPermissionInterceptor),
   graphiql: true,
-  customFormatErrorFn: handleError
+  customFormatErrorFn: graphqlFormatError
 }));
 
 // catch 404 and forward to error handler
@@ -45,9 +50,16 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
 
-  // render the error page
+  // render the error content
   res.status(err.status || 500);
-  res.send(err.message);
+  res.send([
+    {
+      message: err.message,
+      status: err.status || 500
+    }
+  ]
+  );
 });
 
 module.exports = app;
+
