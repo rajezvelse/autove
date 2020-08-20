@@ -6,7 +6,7 @@
     "start": "nodemon --inspect=0.0.0.0:9230  ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
